@@ -180,6 +180,7 @@ int main()
 
     printf("\n");
 
+    printf("Enter the user information to add");
     add_user(filename);
     display(filename);
 
