@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-/*To check character is operator or not*/
+
 int isOperator(char c) {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
@@ -33,7 +33,7 @@ int findLen(char expression[])
     return length;
 }
 
-/* To give different precedence  to different operator*/
+
 int precedence(char c) {
     if (c == '/')
         return 4;
@@ -45,7 +45,7 @@ int precedence(char c) {
         return 1;
 }
 
-/* If expression contain whitespace then remove it*/
+
 void spaceRemover(char expression[], char* exp)
 {
     int len =findLen(expression);
@@ -61,36 +61,34 @@ void spaceRemover(char expression[], char* exp)
     exp[j]='\0';
 }
 
-/* To check expression is valid or not*/
+
 int isValid(char exp[]) {
     int length = findLen(exp);
-    if (length == 0) /* expression should not be empty*/
+    if (length == 0) 
        { return 0;}
-    if ((isOperator(exp[0]) && exp[0]!='-') || isOperator(exp[length - 1]))  /* first and last character should not operator , except first can be '-'*/
-       { return 0;}
+    if ((isOperator(exp[0]) && exp[0]!='-') || isOperator(exp[length - 1])) 
+       {    printf("First or last character is not acceptable operator");
+             return 0;}
 
     for (int i = 0; i < length; i++) {
         char c = exp[i];
-        if (!isDigit(c) && !isOperator(c) && !isSpace(c) ) {  /* check expression contain only digit, operator, space*/
+        if (!isDigit(c) && !isOperator(c) && !isSpace(c) ) {  
+            printf("Not a valid character");
             return 0;
         }
 
         
         if (i > 0 && isOperator(c) && isOperator(exp[i - 1])) 
-           {if(!(c == '-' && !isOperator(exp[i - 2])))   /*Multiple operator should not be there
-                                                            like*+ , but*- will be accepted  */
-           {return 0;}
+           {if(!(c == '-' && !isOperator(exp[i - 2])))   
+           { printf("Multiple operator together");
+           return 0;}
            }
-        
-        if (c == '/' && i + 1 < length && exp[i + 1] == '0') {    /* No zero in divisior*/
-            printf("Error: Division by zero \n");
-            return 0;
-        }
+
     }
     return 1;
 }
 
-/* Infix to postfix conversion*/
+
 char* infixToPostfix(char* exp) {
     int len = findLen(exp);
     char* postfix = (char*)malloc((len * 2) * sizeof(char)); 
@@ -102,12 +100,12 @@ char* infixToPostfix(char* exp) {
         char c = exp[i];
 
         
-        if ((c == '-' && (i == 0 || isOperator(exp[i - 1]))) || isDigit(c)) { /* if positive or negative digit*/
+        if ((c == '-' && (i == 0 || isOperator(exp[i - 1]))) || isDigit(c)) { 
             postfix[j++] = c;
             while (i + 1 < len && isDigit(exp[i + 1])) {
                 postfix[j++] = exp[++i];
             }
-            postfix[j++] = ' '; /* for space between operator and digit*/
+            postfix[j++] = ' '; 
         } else if (isOperator(c)) {
             while (top != -1 && precedence(c) <= precedence(stack[top])) {
                 postfix[j++] = stack[top--];
@@ -118,7 +116,7 @@ char* infixToPostfix(char* exp) {
     }
 
     while (top != -1) {
-        postfix[j++] = stack[top--]; /* if operator left in stack*/
+        postfix[j++] = stack[top--]; 
         postfix[j++] = ' ';
     }
 
@@ -126,7 +124,7 @@ char* infixToPostfix(char* exp) {
     return postfix;
 }
 
-/* postfix evalution*/
+
 int postfixEvaluation(char* postfix) {
     int digitStore[100];
     int top = -1;
@@ -138,11 +136,11 @@ int postfixEvaluation(char* postfix) {
             int digit = 0;
             int sign = 1;
             if (c == '-') {
-                sign = -1;        /* To handle negative digits*/
+                sign = -1;       
                 i++;
             }
             while (i < len && isDigit(postfix[i])) {
-                digit = digit * 10 + (postfix[i++] - '0'); /* to handle multiple digits*/
+                digit = digit * 10 + (postfix[i++] - '0'); 
             }
             i--; 
             digitStore[++top] = digit * sign;
