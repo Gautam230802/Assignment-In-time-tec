@@ -22,6 +22,7 @@ int isDigit(char c)
         return 0;
     }
 }
+
 int findLen(char expression[])
 {   int length =0;
     int i=0;
@@ -33,7 +34,6 @@ int findLen(char expression[])
     return length;
 }
 
-
 int precedence(char c) {
     if (c == '/')
         return 4;
@@ -44,7 +44,6 @@ int precedence(char c) {
     else
         return 1;
 }
-
 
 void spaceRemover(char expression[], char* exp)
 {
@@ -61,11 +60,11 @@ void spaceRemover(char expression[], char* exp)
     exp[j]='\0';
 }
 
-
 int isValid(char exp[]) {
     int length = findLen(exp);
     if (length == 0) 
-       { return 0;}
+       { printf("String is Empty \n");
+        return 0;}
     if ((isOperator(exp[0]) && exp[0]!='-') || isOperator(exp[length - 1])) 
        {    printf("First or last character is not acceptable operator");
              return 0;}
@@ -73,17 +72,16 @@ int isValid(char exp[]) {
     for (int i = 0; i < length; i++) {
         char c = exp[i];
         if (!isDigit(c) && !isOperator(c) && !isSpace(c) ) {  
-            printf("Not a valid character");
+            printf("Not a valid character \n");
             return 0;
         }
 
         
         if (i > 0 && isOperator(c) && isOperator(exp[i - 1])) 
            {if(!(c == '-' && !isOperator(exp[i - 2])))   
-           { printf("Multiple operator together");
+           { printf("Multiple operator together \n");
            return 0;}
            }
-
     }
     return 1;
 }
@@ -98,7 +96,6 @@ char* infixToPostfix(char* exp) {
 
     for (int i = 0; i < len; i++) {
         char c = exp[i];
-
         
         if ((c == '-' && (i == 0 || isOperator(exp[i - 1]))) || isDigit(c)) { 
             postfix[j++] = c;
@@ -160,7 +157,7 @@ int postfixEvaluation(char* postfix) {
                             break;
                 case '/': 
                         if (num1 == 0) {
-                            printf("Division by zero error\n");
+                            printf("Division by zero error \n");
                             return 0;
                         }
                         digitStore[++top] = num2 / num1; 
@@ -179,12 +176,12 @@ int main() {
     printf("%s\n",expression);
     spaceRemover(expression,exp);
     if (!isValid(exp)) {
-        printf("Error: Invalid expression\n");
+        printf("Error: Invalid expression \n");
         return 0;
     }
 
     char* postfix = infixToPostfix(exp);
-    //printf("Postfix is: %s\n", postfix);//
+    printf("Postfix is: %s\n", postfix);
 
     int result = postfixEvaluation(postfix);
     printf("Result is: %d\n", result);
