@@ -6,7 +6,7 @@ struct info
     int id;
     char name[50];
     int age;
-}u;
+}user;
 
 void createFileIfNot(char* filename)
 {   
@@ -37,7 +37,7 @@ void display(char* filename)
 
 fclose(fp);
 }
-int findId(int req_id,char* filename)
+int findId(int requireId,char* filename)
 {
     FILE*fp;
     fp =fopen(filename,"r");
@@ -53,9 +53,8 @@ int findId(int req_id,char* filename)
     int found =0;
     while(fscanf(fp,"%d %s %d",&id,name,&age)==3)
     {
-        if(id == req_id)
+        if(id == requireId)
         {
-            //printf("%d %s %d \n",id,name,age);
             found =1;
         }
     }
@@ -67,12 +66,12 @@ void addUser(char* filename)
     FILE* fp;
 
     printf("Enter ID");
-    scanf("%d",&u.id);
+    scanf("%d",&user.id);
     getchar();
     printf("Enter name");
-    gets(u.name);
+    gets(user.name);
     printf("Enter age");
-    scanf("%d",&u.age);
+    scanf("%d",&user.age);
     getchar();
     fp =fopen(filename,"a");
     if(fp==NULL)
@@ -80,12 +79,12 @@ void addUser(char* filename)
         printf("error in file\n");
         exit(1);
     }
-    if(findId(u.id,filename)){
+    if(findId(user.id,filename)){
         printf("enter unique id");
         exit(1);
     }
     else{
-    fprintf(fp,"%d %s %d\n",u.id,u.name,u.age);
+    fprintf(fp,"%d %s %d\n",user.id,user.name,user.age);
     }
     fclose(fp);
 }
@@ -129,7 +128,7 @@ void deleteId(int del,char* filename)
     rename("temp.txt",filename);
     
 }
-void updateUser(int u_id,char* filename)
+void updateUser(int userId,char* filename)
 {
     FILE*fp;
     fp =fopen(filename,"r");
@@ -152,7 +151,7 @@ void updateUser(int u_id,char* filename)
     file =fopen("temp.txt","w");
     for(int i =0;i<count;i++)
     {
-        if(data[i].id==u_id)
+        if(data[i].id==userId)
         {
              printf("Enter new name: ");
             getchar(); 
@@ -173,7 +172,7 @@ int main()
 {   char filename[20];
     printf("Please Enter filename");
     scanf("%s", filename);
-    //char* filename ="user.txt";
+    
 
     createFileIfNot(filename);
     display(filename);
@@ -193,10 +192,10 @@ int main()
 
     printf("\n");
 
-    int u_id;
+    int userId;
     printf("enter user id to be updated ");
-    scanf("%d",& u_id);
-    updateUser(u_id,filename);
+    scanf("%d",& userId);
+    updateUser(userId,filename);
     display(filename);
    
 return 0;
