@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<stdlib.h>
+void printMatrix(int **arr,int row,int col)
+{printf("Accessing by index\n");
+    for(int i =0;i<row;i++)
+    {
+        for(int j =0;j<col;j++)
+        {
+            printf("%d ",arr[i][j]);
+        }
+        printf("\n");
+    }
+    
+    printf("Accessing by pointer\n");
+    for(int i =0;i<row;i++)
+    {
+        for(int j =0;j<col;j++)
+        {
+            printf("%d ",*(*(arr+i)+j));
+        }
+        printf("\n");
+    }
+}
+int main()
+{
+    int row,col;
+    printf("Enter no. of rows and columns");
+    scanf("%d %d",&row,&col);
+    
+    int **arr =(int**)malloc(row*sizeof(int*));
+    for(int i =0;i<row;i++)
+    {
+        arr[i]=(int*)malloc(col*sizeof(int));
+    }
+    printf("Enter matrix Elements\n");
+    for(int i =0;i<row;i++)
+    {
+        for(int j=0;j<col;j++)
+        {
+            scanf("%d",&arr[i][j]);
+        }
+    }
+    printMatrix(arr,row,col);
+    
+}
