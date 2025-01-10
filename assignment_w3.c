@@ -4,20 +4,20 @@ int isvvowel(char c)
 {
   return (c=='a' || c=='e' || c=='i' || c=='o' || c=='u'|| c=='A' || c=='E' || c=='I' || c=='O'|| c=='U');
 }
-int main()
+void printArray(int row,int col,char nameInfo[][col][50])
 {
-    int row, col;
-    scanf("%d %d",&row,&col);
-    
-    char nameInfo[row][col][50];
-    
     for(int i =0;i<row;i++)
     {
         for(int j =0;j<col;j++)
         {
-            scanf("%s",nameInfo[i][j]);
+            printf("%s ",nameInfo[i][j]);
         }
+        printf("\n");
     }
+}
+
+void MaximumLength(int row,int col,char nameInfo[][col][50])
+{
     int max =-1;
     int row_ind =0;
     int col_ind =0;
@@ -25,7 +25,6 @@ int main()
     {
         for(int j =0;j<col;j++)
         {
-            printf("%s ",nameInfo[i][j]);
             int len =strlen(nameInfo[i][j]);
             if(max < len)
             {
@@ -36,7 +35,12 @@ int main()
         }
         printf("\n");
     }
-int count =0;
+    printf("Name with maximum length %s\n",nameInfo[row_ind][col_ind]);
+}
+
+void isVowel(int row,int col,char nameInfo[][col][50])
+{
+    int count =0;
      for(int i =0;i<row;i++)
     {
         for(int j =0;j<col;j++)
@@ -49,5 +53,25 @@ int count =0;
         
     }
     printf("Words starting with vowel %d \n",count);
-    printf("Name with maximum length %s",nameInfo[row_ind][col_ind]);
+}
+int main()
+{
+    int row, col;
+    printf("Enter row and col: ");
+    scanf("%d %d",&row,&col);
+    
+    char nameInfo[row][col][50];
+    
+    printf("Enter names");
+    for(int i =0;i<row;i++)
+    {
+        for(int j =0;j<col;j++)
+        {
+            scanf("%s",nameInfo[i][j]);
+        }
+    }
+    printArray(row,col,nameInfo);
+    MaximumLength(row,col,nameInfo);
+    isVowel(row,col,nameInfo);
+    
 }
