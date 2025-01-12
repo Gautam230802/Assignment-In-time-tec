@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#define MAX 100
+
+void generatematrix(int mat[MAX][MAX], char *matrix, int *rows, int *cols) {
+    int row = 0, col = 0;
+    for (int i = 0; matrix[i] != '\0'; i++) {
+        char c = matrix[i];
+        if (isdigit(c)) {
+            int temp = 0;
+            while (isdigit(matrix[i])) {
+                temp = temp * 10 + (matrix[i] - '0');
+                i++;
+            }
+            i--;
+            mat[row][col++] = temp;
+            *cols = col;
+        } else if (c == ']') {
+            if (col > 0) {
+                (*rows)++;
+                col = 0;
+                row++;
+            }
+        }
+    }
+    for (int i = 0; i < *rows; i++) {
+        for (int j = 0; j < *cols; j++) {
+            printf("%d ", mat[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int binarySearch(int ind, int cols, int mat[MAX][MAX], int ele) {
+    int left = 0, right = cols - 1, mid;
+    while (left <= right) {
+        mid = left + (right - left) / 2;
+        printf("%d  ", mat[ind][mid]);
+        if (mat[ind][mid] == ele) {
+            printf("Element at %d row %d column\n", ind, mid);
+            return 1;
+        } else if (mat[ind][mid] < ele) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return 0;
+}
+
+void searchElement(int rows, int cols, int mat[MAX][MAX], int ele) {
+    for (int i = 0; i < rows; i++) {
+        if (binarySearch(i, cols, mat, ele)) {
+            return;
+        }
+    }
+    printf("Element not found\n");
+}
+
+int main() {
+    int size, element;
+    int mat[MAX][MAX];
+    printf("Please enter size of string: ");
+    scanf("%d", &size);
+    printf("Enter element to be searched: ");
+    scanf("%d", &element);
+    getchar();  // to consume the newline character left by scanf
+    char matrix[size];
+    fgets(matrix, size, stdin);
+    int rows = 0, cols = 0;
+    generatematrix(mat, matrix, &rows, &cols);
+    searchElement(rows, cols, mat, element);
+    return 0;
+}
