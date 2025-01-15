@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<string.h>
+void removeDuplicate(char *str)
+{
+    char ans[50]="";
+    int n =strlen(str);
+    int k =0;
+    for(int i =0;str[i]!='\0';i++)
+    {
+        int repeated =0;
+        while(i+1 <n && str[i]==str[i+1])
+        {repeated =1;
+            i++;
+        }
+
+        if(repeated==0)
+        {
+            ans[k++] = str[i];
+        }
+    }
+    ans[k]='\0';
+    if(k==n)
+    {
+        strcpy(str,ans);
+    }
+    else{
+        strcpy(str,ans);
+        removeDuplicate(str);
+    }
+}
+
+int main()
+{
+    char str[50];
+    printf("Enter the string: ");
+    fgets(str,50,stdin);
+
+    removeDuplicate(str);
+    printf("%s",str);
+}
