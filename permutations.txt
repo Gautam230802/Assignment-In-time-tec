@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+void swap(char *a,char *b)
+{
+    char temp =*a;
+    *a =*b;
+    *b =temp;
+}
+void allPermutation(int ind,char *str,char **temp,int n,int *resSize)
+{
+    if(ind ==n)
+    {
+        temp[*resSize]=(char*)malloc(sizeof(char)*(n+1));
+        strcpy(temp[*resSize],str);
+        (*resSize)++;
+        return;
+    }
+
+    for(int i =ind;i<n;i++)
+    {
+        swap(&str[ind],&str[i]);
+        allPermutation(ind+1,str,temp,n,resSize);
+        swap(&str[ind],&str[i]);
+    }
+}
+char** permutation(char *str,int * resSize)
+{
+    char **temp =(char**)malloc((100)*sizeof(char*));
+    *resSize =0;
+    int n =strlen(str);
+    allPermutation(0,str,temp,n,resSize);
+
+    return temp;
+}
+
+int main()
+{
+char str[20];
+fgets(str,20,stdin);
+str[strcspn(str, "\n")] = '\0';
+int resSize=0;
+
+char **res= permutation(str,&resSize);
+for(int i =0;i<resSize;i++)
+{
+printf("%s  ",res[i]);
+}
+
+}

@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+bool isPalindrome(const char* s, int low, int high) {
+    while (low < high) {
+        if (s[low] != s[high])
+            return false;
+        low++;
+        high--;
+    }
+    return true;
+}
+
+void findLongestPalindrome(const char* s, char* result) {
+    int n = strlen(s);
+    int maxLength = 1, start = 0;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i; j < n; j++) {
+            if (isPalindrome(s, i, j) && (j - i + 1) > maxLength) {
+                start = i;
+                maxLength = j - i + 1;
+            }
+        }
+    }
+
+    strncpy(result, s + start, maxLength);
+    result[maxLength] = '\0';
+}
+
+int main() {
+    const char* s = "forgeeksskeegfor";
+    char result[100];
+    findLongestPalindrome(s, result);
+    printf("%s\n", result);
+    return 0;
+}

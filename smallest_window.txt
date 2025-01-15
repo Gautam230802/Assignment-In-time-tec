@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<string.h>
+
+void findStr(char *str,char *sub)
+{
+    int freqStr[256]={0};
+    int freqSub[256]={0};
+
+    int len1 =strlen(str);
+    int len2 =strlen(sub);
+    for(int i =0;i<len2;i++)
+    {
+        freqSub[sub[i]]++;
+    }
+    int count=0;
+    int start=0;
+    int index =-1;
+    int len =1e9;
+    for(int j =0;j<len1;j++)
+    {
+        freqStr[str[j]]++;
+
+        if(freqSub[str[j]]!=0 && freqStr[str[j]]<=freqSub[str[j]])
+        {
+            count++;
+        }
+
+        if(count == len2)
+        {
+            while(freqStr[str[start]]>freqSub[str[start]]|| freqSub[str[start]]==0)
+            { 
+                if(freqStr[str[start]] >freqSub[str[start]]){
+                    freqStr[str[start]]--;
+                }
+                
+                start++;
+            }
+
+            int updatedlen =j-start+1;
+            if(updatedlen <len)
+            {
+                len =updatedlen;
+                index =start;
+            }
+        }
+    }
+    if(index ==-1)
+    {
+        printf("");
+    }
+    else{
+        char result[50];
+        strncpy(result,str+index,len);
+        result[len]='\0';
+        printf("%s",result);
+    }
+}
+int main()
+{
+    char str[50];
+    printf("Enter the string");
+    fgets(str,50,stdin);
+
+    char sub[50];
+    printf("Enter the substring");
+    fgets(sub,50,stdin);
+
+    
+    findStr(str,sub);
+
+}
